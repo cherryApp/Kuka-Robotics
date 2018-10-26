@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col-md-12
+        h1= title
+
+        .row
+          .col-md-12
+            button.btn.btn-block.btn-primary.fetch-users Fetch Users
+
+        table.table.table-striped
+          thead
+            tr
+              th(scope='col') #
+              th(scope='col') Name
+              th(scope='col') Email
+              th(scope='col') 
+          tbody
+
+  script(src="/javascripts/user.js")

@@ -45,6 +45,7 @@ var deleteUser = function(user) {
         return response.json();
     }).then( json => {
         console.log(json);
+        fetchUsers();
     })
 };
 

@@ -20,21 +20,31 @@ router.get('/api/user', async (req, res, next) => {
   }
 });
 
-router.post('/api/user/:id', (req, res, next) => {
-  console.log(req.params.id);
-  console.log(req.body);
-  res.json({message: 'ok'});
+router.post('/api/user/:id', async (req, res, next) => {
+  try {
+    let updated = await usersDB.update(req.body);
+    res.json(updated);
+  } catch (e) {
+    res.json( {error: e} );
+  }
 });
 
-router.put('/api/user/:id', (req, res, next) => {
-  console.log(req.params.id);
-  console.log(req.body);
-  res.json({message: 'ok'});
+router.put('/api/user/:id', async (req, res, next) => {
+  try {
+    let created = await usersDB.create(req.body);
+    res.json(created);
+  } catch (e) {
+    res.json( {error: e} );
+  }
 });
 
-router.delete('/api/user/:id', (req, res, next) => {
-  console.log(req.params.id);
-  res.json({message: 'ok'});
+router.delete('/api/user/:id', async (req, res, next) => {
+  try {
+    let deleted = await usersDB.delete(req.params.id);
+    res.json(deleted);
+  } catch (e) {
+    res.json( {error: e} );
+  }
 });
 
 module.exports = router;

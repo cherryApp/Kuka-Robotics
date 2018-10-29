@@ -1,17 +1,7 @@
 [
     {
-        "id": 1,
-        "name": "Tibi",
-        "email": "tibi@gmail.com"
-    },
-    {
         "id": 2,
         "name": "Zoli",
-        "email": "tibi@gmail.com"
-    },
-    {
-        "id": 3,
-        "name": "Józsi",
         "email": "tibi@gmail.com"
     },
     {

@@ -29,7 +29,7 @@ class DB {
         return new Promise( (resolve, reject) => {
             fs.writeFileSync(
                 this.file, 
-                JSON.stringify(this.fileContent), 
+                JSON.stringify(this.fileContent, null, 4), 
                 'utf8'
             );
             resolve(this.fileContent);
@@ -64,6 +64,7 @@ class DB {
             try {                
                 this.fileContent.push(entity);
                 this.save();
+                resolve({created: 1});
             } catch (e) {
                 reject(e);
             }

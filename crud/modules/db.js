@@ -8,21 +8,8 @@ class DB {
     }
 
     load() {
-        return new Promise( (resolve, reject) => {
-            fs.readFile(this.file, 'utf8', (err, data) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                try {
-                    this.fileContent = JSON.parse(data);
-                } catch (e) {
-                    return reject(e);
-                }
-
-                resolve(this.fileContent);
-            });
-        })
+        let file = fs.readFileSync(this.file, 'utf8');
+        this.fileContent = JSON.parse(file);
     }
 
     save() {

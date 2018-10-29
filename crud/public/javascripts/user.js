@@ -27,7 +27,7 @@ var postUser = function(user) {
 };
 
 var putUser = function(user) {
-    fetch('/users/api/user/'+user.id, {
+    fetch('/users/api/user', {
         method: "PUT",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -35,6 +35,9 @@ var putUser = function(user) {
         body: JSON.stringify(user)
     }).then( response => {
         return response.json();
+    }).then( json => {
+        console.log( json );
+        fetchUsers();
     });
 };
 
@@ -62,7 +65,7 @@ var tableCell = function(user, key, disabled) {
     input.className = 'form-control';
     input.key = key;
     input.user = user;
-    input.value = user[key];
+    input.value = user[key] || '';
     if (disabled) {
         input.setAttribute('disabled', 'disabled');
     }
@@ -75,6 +78,8 @@ var tableCell = function(user, key, disabled) {
 
 // Create a row for the table.
 var tableRow = function(user) {
+    user = user || {};
+
     var tr = document.createElement('tr');
     tr.appendChild( tableCell(user, 'id', true) );
     tr.appendChild( tableCell(user, 'name', false) );
@@ -87,6 +92,18 @@ var tableRow = function(user) {
     var group = document.createElement('div');
     td.appendChild(group);
     group.className = 'btn-group';
+
+    if (!user.id) {
+        var createButton = document.createElement('button');
+        group.appendChild(createButton);
+        createButton.user = user;
+        createButton.innerHTML = 'create';
+        createButton.className = 'btn btn-success';
+        createButton.addEventListener('click', function() {
+            putUser(this.user);
+        });
+        return tr;
+    }
 
     var button = document.createElement('button');
     group.appendChild(button);
@@ -113,6 +130,7 @@ var tableRow = function(user) {
 var fillTable = function(json) {
     var tbody = document.querySelector('tbody');
     tbody.innerHTML = '';
+    tbody.appendChild( tableRow() );
     for (var k in json) {
         tbody.appendChild( tableRow(json[k]) );
     }

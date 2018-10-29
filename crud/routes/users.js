@@ -29,7 +29,7 @@ router.post('/api/user/:id', async (req, res, next) => {
   }
 });
 
-router.put('/api/user/:id', async (req, res, next) => {
+router.put('/api/user', async (req, res, next) => {
   try {
     let created = await usersDB.create(req.body);
     res.json(created);

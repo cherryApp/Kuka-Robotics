@@ -15,7 +15,18 @@ router.get('/api/user', (req, res, next) => {
 router.post('/api/user/:id', (req, res, next) => {
   console.log(req.params.id);
   console.log(req.body);
-  res.send('ok');
+  res.json({message: 'ok'});
+});
+
+router.put('/api/user/:id', (req, res, next) => {
+  console.log(req.params.id);
+  console.log(req.body);
+  res.json({message: 'ok'});
+});
+
+router.delete('/api/user/:id', (req, res, next) => {
+  console.log(req.params.id);
+  res.json({message: 'ok'});
 });
 
 module.exports = router;

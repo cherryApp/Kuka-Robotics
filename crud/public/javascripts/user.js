@@ -11,9 +11,24 @@ var fetchUsers = function() {
         });
 };
 
+// Send user data to the server.
 var postUser = function(user) {
-    fetch('users/api/user/'+user.id, {
+    fetch('/users/api/user/'+user.id, {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(user)
+    }).then( response => {
+        return response.json();
+    }).then( json => {
+        console.log(json);
+    });
+};
+
+var putUser = function(user) {
+    fetch('/users/api/user/'+user.id, {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
         },
@@ -23,17 +38,33 @@ var postUser = function(user) {
     });
 };
 
+var deleteUser = function(user) {
+    fetch('/users/api/user/'+user.id, {
+        method: "DELETE"
+    }).then( response => {
+        return response.json();
+    });
+};
+
 document.querySelector('.fetch-users').addEventListener('click', function() {
     fetchUsers();
 });
 
+// Create a row for the table.
 var tableRow = function(user) {
+    // Output string. It contains the html source.
     var output = `<td>${user.id}</td>`;
     output += `<td>${user.name}</td>`;
     output += `<td>${user.email}</td>`;
+
+    // Add update button.
     output += `<button class="send-btn btn btn-success">send</button>`;
+    
+    // Create the the tr object.
     var tr = document.createElement('tr');
     tr.innerHTML = output;
+
+    // Find update button in tr element.
     var button = tr.querySelector('button');
     button.user = user;
     button.addEventListener('click', function() {

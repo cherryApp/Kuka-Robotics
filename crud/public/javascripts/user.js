@@ -50,23 +50,39 @@ document.querySelector('.fetch-users').addEventListener('click', function() {
     fetchUsers();
 });
 
+// Create table cell.
+var tableCell = function(user, key, disabled) {
+    var input = document.createElement('input');
+    var td = document.createElement('td');
+
+    input.type = 'text';
+    input.className = 'form-control';
+    input.key = key;
+    input.user = user;
+    input.value = user[key];
+    if (disabled) {
+        input.setAttribute('disabled', 'disabled');
+    }
+    td.appendChild(input);
+    return td;
+};
+
 // Create a row for the table.
 var tableRow = function(user) {
-    // Output string. It contains the html source.
-    var output = `<td>${user.id}</td>`;
-    output += `<td>${user.name}</td>`;
-    output += `<td>${user.email}</td>`;
-
-    // Add update button.
-    output += `<button class="send-btn btn btn-success">send</button>`;
-    
-    // Create the the tr object.
     var tr = document.createElement('tr');
-    tr.innerHTML = output;
+    tr.appendChild( tableCell(user, 'id', true) );
+    tr.appendChild( tableCell(user, 'name', false) );
+    tr.appendChild( tableCell(user, 'email', false) );
 
-    // Find update button in tr element.
-    var button = tr.querySelector('button');
+    
+    // Create update button in tr element.
+    var td = document.createElement('td');
+    tr.appendChild(td);
+    var button = document.createElement('button');
+    td.appendChild(button);
     button.user = user;
+    button.innerHTML = 'update';
+    button.className = 'btn btn-info';
     button.addEventListener('click', function() {
         postUser(this.user);
     });

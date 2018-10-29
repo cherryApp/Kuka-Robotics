@@ -43,7 +43,9 @@ var deleteUser = function(user) {
         method: "DELETE"
     }).then( response => {
         return response.json();
-    });
+    }).then( json => {
+        console.log(json);
+    })
 };
 
 document.querySelector('.fetch-users').addEventListener('click', function() {
@@ -63,6 +65,9 @@ var tableCell = function(user, key, disabled) {
     if (disabled) {
         input.setAttribute('disabled', 'disabled');
     }
+    input.onchange = function() {
+        user[key] = this.value;
+    };
     td.appendChild(input);
     return td;
 };
@@ -78,13 +83,27 @@ var tableRow = function(user) {
     // Create update button in tr element.
     var td = document.createElement('td');
     tr.appendChild(td);
+    var group = document.createElement('div');
+    td.appendChild(group);
+    group.className = 'btn-group';
+
     var button = document.createElement('button');
-    td.appendChild(button);
+    group.appendChild(button);
     button.user = user;
     button.innerHTML = 'update';
     button.className = 'btn btn-info';
     button.addEventListener('click', function() {
         postUser(this.user);
+    });
+
+    // Create delete button.
+    var dButton = document.createElement('button');
+    group.appendChild(dButton);
+    dButton.user = user;
+    dButton.innerHTML = 'delete';
+    dButton.className = 'btn btn-danger';
+    dButton.addEventListener('click', function() {
+        deleteUser(this.user);
     });
 
     return tr;

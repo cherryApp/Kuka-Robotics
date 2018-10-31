@@ -8,8 +8,15 @@ class DB {
     }
 
     load() {
-        let file = fs.readFileSync(this.file, 'utf8');
-        this.fileContent = JSON.parse(file);
+        return new Promise( (resolve, reject) => {
+            let file = fs.readFile(this.file, 'utf8', (err, data) => {
+                if (err) {
+                    return reject(err);
+                }
+                this.fileContent = JSON.parse(data);
+                resolve(this.fileContent);
+            });
+        })
     }
 
     save() {
@@ -60,7 +67,7 @@ class DB {
             try {                
                 this.fileContent.push(entity);
                 this.save();
-                resolve({created: 1});
+                resolve({created: 1, entity: entity});
             } catch (e) {
                 reject(e);
             }
@@ -93,7 +100,7 @@ class DB {
             if (!updated) {
                 resolve({updated: 0});
             } else {
-                resolve({updated: 1});
+                resolve({updated: 1, entity: entity});
             }      
         });
     }
@@ -109,7 +116,7 @@ class DB {
 
             try {
                 this.save();
-                resolve({deleted: 1});
+                resolve({deleted: 1, id: id});
             } catch (e) {
                 reject(e);
             }
